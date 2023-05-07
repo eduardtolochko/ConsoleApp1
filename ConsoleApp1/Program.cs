@@ -14,10 +14,12 @@ namespace ConsoleApp1
     {
         public static void Main(string[] args)
         {
+
             ReadXMLDataBase();
+            WriteAddWord(channelList);
         }
 
-        public static Channels ReadXMLDataBase()
+    public static Channels ReadXMLDataBase()
         ///Read data from a file using a data model.
         {
             Channels channels;
