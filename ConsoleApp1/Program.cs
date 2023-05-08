@@ -1,11 +1,13 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.InkML;
+using Ganss.Excel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Excel = Microsoft.Office.Interop.Excel;
+using static ConsoleApp1.Program;
 using Word = Microsoft.Office.Interop.Word;
 
 namespace ConsoleApp1
@@ -14,16 +16,16 @@ namespace ConsoleApp1
     {
         public static void Main(string[] args)
         {
-
             ReadXMLDataBase();
-            WriteAddWord(channelList);
+            Example1();
         }
 
-    public static Channels ReadXMLDataBase()
+
+        public static Channels ReadXMLDataBase()
         ///Read data from a file using a data model.
         {
             Channels channels;
-            string path = @"C:\Users\n.tolochka\Downloads\data.xml";
+            string path = @"data.xml";
 
             XmlSerializer serializer = new XmlSerializer(typeof(Channels));
 
@@ -35,14 +37,14 @@ namespace ConsoleApp1
 
             var selectedchannels = channels.ChannelList.Where(p => p.category.Contains("Политика"));
                                    channels.ChannelList.OrderBy(p => p.pubDate);
-            return channels;
-              
+            return (Channels)selectedchannels;
+
         }
 
         [Serializable()]
         public class Channel
         {
-            [System.Xml.Serialization.XmlElement("title")]
+            [XmlElement("title")]
             public string title { get; set; }
 
             [System.Xml.Serialization.XmlElement("link")]
@@ -69,7 +71,7 @@ namespace ConsoleApp1
         public static void WriteAddWord(Channel[] channelList)
         {
             ///Write data to word
-            {
+            
                 try
                 {
                     //Create an instance for word app  
@@ -118,7 +120,15 @@ namespace ConsoleApp1
                 {
                     Console.WriteLine($"Ошибка: {ex.Message}");
                 }
-            }
+            
+        }
+        public static void Example1()
+        {
+            ReadXMLDataBase();
+            var excelMapper = new ExcelMapper();
+            excelMapper.Save(@"D:\channel.xlsx");
         }
     }
+
+
 }
