@@ -122,11 +122,15 @@ namespace ConsoleApp1
                 }
             
         }
+
         public static void Example1()
         {
-            ReadXMLDataBase();
+            var ad = new List<Channel>
+            { 
+                new Channel { title = channel.title , link = "Carson Alexander", description = "US", category = "", pubDate = "" },
+            };
             var excelMapper = new ExcelMapper();
-            excelMapper.Save(@"D:\channel.xlsx");
+            excelMapper.Save(@"D:\channel.xlsx", ad);
         }
     }
 
